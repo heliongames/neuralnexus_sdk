@@ -1,2 +1,32 @@
-# neuralnexus_sdk
-Lightweight HTML5 SDK for neuralnexus.games to safely handle game saves and achievements from sandboxed iframes via postMessage.
+# NeuralNexus HTML5 SDK
+
+Легковесный JavaScript SDK для интеграции HTML5 и React-игр с игровым порталом `neuralnexus.games`. 
+
+Позволяет изолированным в `sandbox` играм безопасно сохранять игровой прогресс и разблокировать достижения (ачивки) через механизм `postMessage`.
+
+## Установка и подключение с помощью ИИ
+
+Дайте вашей нейросети (Antigravity, Claude, ChatGPT) ссылку на этот репозиторий и попросите её:
+
+«Скачай код SDK из репозитория https://github.com/heliongames/neuralnexus_sdk , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
+<script src="neuralnexus-sdk.js"></script>»
+
+## API Методы
+
+После подключения в глобальной области видимости игры станет доступен объект `window.NeuralNexus` со следующими методами:
+
+### 1. Сохранение прогресса
+Отправляет объект с любыми данными игры на портал для записи в базу данных.
+
+```javascript
+window.NeuralNexus.saveProgress({
+    level: 3,
+    score: 1250,
+    inventory: ['laser_gun', 'shield']
+});
+
+### 2. Разблокировка достижений
+Отправляет уникальный строковый идентификатор ачивки на портал.
+
+```javascript
+window.NeuralNexus.unlockAchievement('boss_defeated_level_1');
