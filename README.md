@@ -5,14 +5,21 @@
 Позволяет изолированным в `sandbox` играм безопасно сохранять игровой прогресс и разблокировать достижения (ачивки) через механизм `postMessage`.
 
 ## Установка и подключение с помощью ИИ
+Дайте вашей нейросети (Antigravity, Claude, ChatGPT) ссылку на этот репозиторий и выберите удобный вариант подключения:
 
-Дайте вашей нейросети (Antigravity, Claude, ChatGPT) ссылку на этот репозиторий и попросите её:
+### Вариант 1. Локальное подключение (через скачивание файла)
+Попросите ИИ:
+«Скачай код SDK из репозитория https://github.com/heliongames/neuralnexus_sdk , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
+<script src="neuralnexus-sdk.js"></script>
 
-«Скачай код SDK из репозитория [https://github.com/heliongames/neuralnexus_sdk](https://github.com/heliongames/neuralnexus_sdk.git) , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
-<script src="neuralnexus-sdk.js"></script>»
+
+### Вариант 2. Быстрое подключение через CDN (без скачивания файлов)
+Попросите ИИ:
+«Подключи SDK для игрового портала в мой `index.html` перед основным кодом игры, вставив строчку скрипта напрямую из CDN jsDelivr:
+<script src="[https://cdn.jsdelivr.net/gh/heliongames/neuralnexus_sdk@main/neuralnexus-sdk.js](https://cdn.jsdelivr.net/gh/heliongames/neuralnexus_sdk@main/neuralnexus-sdk.js)"></script>
+
 
 ## API Методы
-
 После подключения в глобальной области видимости игры станет доступен объект `window.NeuralNexus` со следующими методами:
 
 ### 1. Сохранение прогресса
