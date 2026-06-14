@@ -35,10 +35,13 @@ window.NeuralNexus.unlockAchievement('boss_defeated_level_1');
 Запрашивает ранее сохраненные данные пользователя с портала. Возвращает Promise с объектом данных (или null, если сохранений еще нет).
 
 ```javascript
-// Вариант через async/await (идеально для ИИ):
+// Пример загрузки сложной структуры:
 const saveData = await window.NeuralNexus.loadProgress();
+
 if (saveData) {
-    currentLevel = saveData.level;
-    currentScore = saveData.score;
+    game.stats = saveData.stats;
+    game.equippedSkinId = saveData.equippedSkinId;
+    game.difficulty = saveData.difficulty;
+    console.log("Прогресс успешно загружен!");
 }
 ```
