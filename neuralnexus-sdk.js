@@ -28,7 +28,7 @@
       return new Promise((resolve) => {
         const uniqueId = Math.random().toString(36).substring(7);
         const handler = (event) => {
-          if (event.origin !== PORTAL_ORIGIN) return;
+          if (PORTAL_ORIGIN !== "*" && event.origin !== PORTAL_ORIGIN) return;
           if (event.data && event.data.action === 'LOAD_PROGRESS_RESPONSE' && event.data.requestId === uniqueId) {
             window.removeEventListener('message', handler);
             resolve(event.data.payload);
