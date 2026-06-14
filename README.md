@@ -24,9 +24,10 @@ window.NeuralNexus.saveProgress({
     score: 1250,
     inventory: ['laser_gun', 'shield']
 });
-
+```
 ### 2. Разблокировка достижений
 Отправляет уникальный строковый идентификатор ачивки на портал.
 
 ```javascript
 window.NeuralNexus.unlockAchievement('boss_defeated_level_1');
+```
