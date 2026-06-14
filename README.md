@@ -8,7 +8,7 @@
 
 Дайте вашей нейросети (Antigravity, Claude, ChatGPT) ссылку на этот репозиторий и попросите её:
 
-«Скачай код SDK из репозитория https://github.com/heliongames/neuralnexus_sdk , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
+«Скачай код SDK из репозитория [https://github.com/heliongames/neuralnexus_sdk](https://github.com/heliongames/neuralnexus_sdk.git) , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
 <script src="neuralnexus-sdk.js"></script>»
 
 ## API Методы
