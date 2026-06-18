@@ -1,32 +1,29 @@
-# NeuralNexus HTML5 SDK
+# NeuralNexus SDK
 
-Легковесный JavaScript SDK для интеграции HTML5 и React-игр с игровым порталом `neuralnexus.games`. 
+Lightweight integration bridge for HTML5 games hosted on the [NeuralNexus Games](https://neuralnexus.games) portal. It allows games to easily save progress, unlock achievements, submit universal leaderboard records, and display ads using simple JavaScript promises.
 
-Позволяет изолированным в `sandbox` играм безопасно сохранять игровой прогресс и разблокировать достижения (ачивки) через механизм `postMessage`.
+---
 
-## Установка и подключение с помощью ИИ
-Дайте вашей нейросети (Antigravity, Claude, ChatGPT) ссылку на этот репозиторий и выберите удобный вариант подключения:
+## Setup
 
-### Вариант 1. Локальное подключение (через скачивание файла)
-Попросите ИИ:
-Скачай код SDK из репозитория https://github.com/heliongames/neuralnexus_sdk , сохрани его в файл `neuralnexus-sdk.js` в корень моего проекта и подключи его в `index.html` следующей строчкой перед основным кодом игры:
+### Option 1: Local Setup
+Download `neuralnexus-sdk.js` and save it to the root directory of your game project. Then, include the script in your `index.html` before your main game code:
 ```html
 <script src="neuralnexus-sdk.js"></script>
 ```
 
-### Вариант 2. Быстрое подключение через CDN (без скачивания файлов)
-Попросите ИИ:
-Подключи SDK для игрового портала в мой `index.html` перед основным кодом игры, вставив строчку скрипта напрямую из CDN jsDelivr:
+### Option 2: CDN Setup
+You can also connect the SDK directly from the jsDelivr CDN without downloading any files. Place the following script tag in your `index.html` before your main game code:
 ```html
 <script src="https://cdn.jsdelivr.net/gh/heliongames/neuralnexus_sdk@main/neuralnexus-sdk.js"></script>
 ```
 
-## API Методы
-После подключения в глобальной области видимости игры станет доступен объект `window.NeuralNexus` со следующими методами:
+---
 
-### 1. Сохранение прогресса
-Отправляет объект с любыми данными игры на портал для записи в базу данных.
+## API Reference
 
+### 1. Save Progress
+Sends an arbitrary JSON object containing player state or progress to the portal. Call this when the player finishes a level, gains items, or changes settings.
 ```javascript
 window.NeuralNexus.saveProgress({
     level: 3,
@@ -34,23 +31,52 @@ window.NeuralNexus.saveProgress({
     inventory: ['laser_gun', 'shield']
 });
 ```
-### 2. Разблокировка достижений
-Отправляет уникальный строковый идентификатор ачивки на портал.
 
+### 2. Load Progress
+Requests previously saved user data from the portal. Returns a `Promise` resolving to the saved data object, or `null` if no save state exists yet.
+```javascript
+window.NeuralNexus.loadProgress().then((saveData) => {
+    if (saveData) {
+        game.stats = saveData.stats;
+        game.equippedSkinId = saveData.equippedSkinId;
+        console.log("Progress successfully loaded!");
+    } else {
+        console.log("No save state found. Starting fresh.");
+    }
+});
+```
+
+### 3. Unlock Achievement
+Unlocks an achievement in the player's profile by sending its unique string identifier.
 ```javascript
 window.NeuralNexus.unlockAchievement('boss_defeated_level_1');
 ```
-### 3. Загрузка прогресса
-Запрашивает ранее сохраненные данные пользователя с портала. Возвращает Promise с объектом данных (или null, если сохранений еще нет).
 
+### 4. Submit Score / Record
+Submits a high score or record to the leaderboards. Supports multiple leaderboard keys per game, custom sorting orders, formatted display strings, and metadata.
 ```javascript
-// Пример загрузки сложной структуры:
-const saveData = await window.NeuralNexus.loadProgress();
+window.NeuralNexus.submitScore({
+    score: 84.503,                      // Numeric value for database sorting (Required)
+    recordKey: 'lap_time',              // Leaderboard key (Optional, default: 'score')
+    displayValue: '1:24.503',           // Formatted string to display in UI (Optional)
+    sortOrder: 'ASC',                   // Sorting direction: 'ASC' (lower is better, e.g. time) or 'DESC' (default, higher is better)
+    metadata: { car: 'Tesla Roadster' } // Additional custom metadata object (Optional)
+});
 
-if (saveData) {
-    game.stats = saveData.stats;
-    game.equippedSkinId = saveData.equippedSkinId;
-    game.difficulty = saveData.difficulty;
-    console.log("Прогресс успешно загружен!");
-}
+// You can also use the alias:
+window.NeuralNexus.saveRecord({ ... });
+```
+
+### 5. Show Interstitial Ad
+Requests a full-screen interstitial ad overlay. The portal will pause game interaction and overlay a countdown timer. Returns a `Promise` resolving to `{ success: true }` after the ad finishes, allowing you to easily resume the game.
+```javascript
+// 1. Pause game loop
+game.pause();
+
+// 2. Request ad
+window.NeuralNexus.showAd().then((result) => {
+    console.log("Ad finished:", result); // { success: true }
+    // 3. Resume game loop
+    game.resume();
+});
 ```
