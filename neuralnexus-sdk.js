@@ -58,7 +58,7 @@
       actionType: actionType
     };
 
-    const url = "https://api.neuralnexus.games";
+    const url = "https://api.neuralnexus.games/?action=track_analytics";
 
     if (typeof fetch === 'function') {
       fetch(url, {
