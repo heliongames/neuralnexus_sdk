@@ -26,7 +26,7 @@
     if (scriptEl && scriptEl.getAttribute('data-game-id')) {
       gameId = scriptEl.getAttribute('data-game-id');
     }
-  } catch (e) {}
+  } catch (e) { }
 
   if (gameId === "unknown") {
     try {
@@ -35,7 +35,7 @@
       if (match && match[1]) {
         gameId = match[1];
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   if (gameId === "unknown") {
@@ -45,7 +45,7 @@
       if (gameIdParam) {
         gameId = gameIdParam;
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   // --- 3. Отправка событий аналитики ---
@@ -113,7 +113,7 @@
         }
       }, 300);
     }
-  } catch (e) {}
+  } catch (e) { }
 
   if (!isLocked) {
     sendAnalytics('game_start');
@@ -201,6 +201,25 @@
         window.parent.postMessage({
           source: 'neuralnexus-sdk',
           action: 'SHOW_AD',
+          requestId: uniqueId
+        }, PORTAL_ORIGIN);
+      });
+    },
+
+    getPlayerInfo: function () {
+      return new Promise((resolve) => {
+        const uniqueId = Math.random().toString(36).substring(7);
+        const handler = (event) => {
+          if (PORTAL_ORIGIN !== "*" && event.origin !== PORTAL_ORIGIN) return;
+          if (event.data && event.data.action === 'GET_PLAYER_INFO_RESPONSE' && event.data.requestId === uniqueId) {
+            window.removeEventListener('message', handler);
+            resolve(event.data.payload);
+          }
+        };
+        window.addEventListener('message', handler);
+        window.parent.postMessage({
+          source: 'neuralnexus-sdk',
+          action: 'GET_PLAYER_INFO',
           requestId: uniqueId
         }, PORTAL_ORIGIN);
       });
