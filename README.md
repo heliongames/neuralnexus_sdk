@@ -80,3 +80,13 @@ window.NeuralNexus.showAd().then((result) => {
     game.resume();
 });
 ```
+
+### 6. Get Player Info
+Requests the username, avatar URL, and secure public ID (`public_id`) of the active player. Useful for multiplayer matching, displaying profiles, or custom player identification. Returns a `Promise` resolving to the player data object (or guest details if the player is not logged in).
+```javascript
+window.NeuralNexus.getPlayerInfo().then((player) => {
+    console.log(player.username);   // Username (e.g. 'JohnDoe' or 'Guest_a4d2e1')
+    console.log(player.avatar_url); // Avatar URL string (or null)
+    console.log(player.public_id);  // Secure public player ID (UUID v4 or guest token)
+});
+```
